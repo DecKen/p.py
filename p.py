@@ -2,7 +2,7 @@ import sys
 from twisted.web import http, proxy
 from twisted.internet import reactor
 
-HEAD = 'Fuck GFW\r\n'
+HEAD = 'Fuck GFW\x01\r\n'
 f = http.HTTPFactory()
 f.protocol = proxy.Proxy
 if 'client' in sys.argv:
