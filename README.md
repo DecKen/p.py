@@ -3,6 +3,14 @@ p.py
 
 Fuck GFW with 25 lines of code. Currently only HTTP supported.
 
+Install Twisted
+
+    apt-get install python-twisted
+    
+Or
+
+    pip install twisted
+
 On your server:
 
     python p.py server
