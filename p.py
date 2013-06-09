@@ -12,13 +12,18 @@ if 'client' in sys.argv:
 elif 'server' in sys.argv:
     listen_port = 1984
 
-    def process_(self):
-        headers = self.getAllHeaders().copy()
-        parsed = headers['host'].split(':')
-        self.content.seek(len(HEAD), 0)
-        clientFactory = proxy.ProxyClientFactory(self.method, self.uri, self.clientproto, headers, self.content.read(), self)
-        self.reactor.connectTCP(parsed[0], 80 if len(parsed) == 1 else int(parsed(1)), clientFactory)
+    # def process_(self):
+    #     headers = self.getAllHeaders().copy()
+    #     parsed = headers['host'].split(':')
+    #     self.content.seek(0, 0)
+    #     clientFactory = proxy.ProxyClientFactory(self.method, self.uri, self.clientproto, headers, self.content.read(), self)
+    #     self.reactor.connectTCP(parsed[0], 80 if len(parsed) == 1 else int(parsed(1)), clientFactory)
 
+    def process_(self):
+        self.uri = 'http://%s:%s%s' % tuple(((self.getHeader('host') + ':80').split(':'))[:2] + [self.uri])
+        _process(self)
+
+    _process = proxy.ProxyRequest.process
     proxy.ProxyRequest.process = process_
     _lineReceived = http.HTTPChannel.lineReceived
     http.HTTPChannel.lineReceived = lambda self, line: _lineReceived(self, line) if line.strip() != HEAD.strip() else None
